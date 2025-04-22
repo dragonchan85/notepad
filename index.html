@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9288770962100185"
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Notepad</title>
+  <meta name="description" content="Smart online notepad with dark mode, auto-save, and export features.">
+  <style>
+    :root {
+      --bg-color: #f7f7f7;
+      --text-color: #111;
+    }
+    body.dark {
+      --bg-color: #111;
+      --text-color: #f7f7f7;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header, footer {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    header {
+      background: #333;
+      color: white;
+    }
+
+    .controls {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    textarea {
+      flex: 1;
+      padding: 1rem;
+      font-size: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+      border: none;
+      resize: none;
+      outline: none;
+      background: inherit;
+      color: inherit;
+    }
+
+    button {
+      margin: 5px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    footer {
+      background: #eee;
+      color: #333;
+      font-size: 0.85rem;
+    }
+
+    body.dark footer {
+      background: #222;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📝 Smart Notepad</h1>
+    <p id="lang-detect">Detecting language...</p>
+  </header>
+
+  <div class="controls">
+    <button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+    <button onclick="copyText()">📋 Copy</button>
+    <button onclick="saveFile()">💾 Save as .txt</button>
+  </div>
+
+  <textarea id="notepad" placeholder="Start typing..."></textarea>
+
+  <footer>
+    <!-- AdSense 광고 자리 -->
+    <div style="margin: 1rem 0;">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9288770962100185"
+            crossorigin="anonymous"></script>
+        <!-- notepad -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-9288770962100185"
+            data-ad-slot="6399153707"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    <p>© 2025 Smart Notepad. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const textarea = document.getElementById('notepad');
+
+    // 🔄 Auto Save
+    textarea.value = localStorage.getItem('notepad') || '';
+    textarea.addEventListener('input', () => {
+      localStorage.setItem('notepad', textarea.value);
+      detectLanguage(textarea.value);
+    });
+
+    // 🌙 Dark Mode
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+
+    // 📋 Copy to Clipboard
+    function copyText() {
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        alert("Text copied to clipboard!");
+      });
+    }
+
+    // 💾 Save as .txt file
+    function saveFile() {
+      const blob = new Blob([textarea.value], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'notepad.txt';
+      link.click();
+    }
+
+    // 🌐 Language Detection (Korean vs English)
+    function detectLanguage(text) {
+      const langElement = document.getElementById('lang-detect');
+      if (!text.trim()) {
+        langElement.textContent = 'Detecting language...';
+        return;
+      }
+      const korean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(text);
+      langElement.textContent = korean ? '📖 Language: Korean (한글)' : '📖 Language: English';
+    }
+
+    // Init language detection
+    detectLanguage(textarea.value);
+  </script>
+</body>
+</html>
